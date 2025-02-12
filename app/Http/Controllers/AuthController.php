@@ -86,7 +86,7 @@ class AuthController extends Controller
                 'message'=> 'Logged out successfully'
             ], 200);
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return response()->json(['error'=>$th->getMessage()]);
 
         }
