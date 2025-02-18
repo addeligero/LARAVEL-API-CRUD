@@ -75,7 +75,7 @@ class AuthController extends Controller
 
     }
 
-    //logpouy
+    //logout
 
     public function logout(Request $request)
     {
@@ -94,5 +94,31 @@ class AuthController extends Controller
       
 
 
+    }
+    public function UpdatePass(Request $request)
+    {
+        $validated=Validator::make($request->all(), [
+        'old_password'=>'required|min:6|string',
+        'new_password'=>'required|min:6|string|confirmed'
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json($validated->errors(), 422);
+        }
+        try {
+            $user = $request->user();
+            if (!Hash::check($request->old_password, $user->password)) {
+                return response()->json(['error'=>'Invalid old password'], 400);
+            }
+            $user->password=Hash::make($request->new_password);
+            $user->save();
+
+            return response()->json([
+                'message'=> 'Password updated successfully'
+            ], 200);
+
+        } catch (\Exception $th) {
+            return response()->json(['error'=>$th->getMessage()]);
+        }
     }
 }
