@@ -10,8 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::create('dashboards', function (Blueprint $table) {
+            $table->id();
             $table->string('image')->nullable();
+            $table->string('motto')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -20,9 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('image');
-
-        });
+        Schema::dropIfExists('dashboards');
     }
 };
