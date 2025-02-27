@@ -60,4 +60,24 @@ class DashboardController extends Controller
 
         return response()->json(['has_image' => false], 200);
     }
+
+    public function uploadMotto(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'motto' => 'required|string|max:255',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json($validated->errors(), 422);
+        }
+
+        $user = $request->user();
+        $dashboard = Dashboard::updateOrCreate(
+            ['user_id' => $user->id],
+            ['motto' => $request->motto]
+        );
+
+        return response()->json(['message' => 'Motto added successfully', 'motto' => $dashboard->motto], 200);
+
+    }
 }

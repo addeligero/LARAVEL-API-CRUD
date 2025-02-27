@@ -21,5 +21,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/upload', [DashboardController::class,'AddImage']);
     Route::put('/passwords', [AuthController::class,'UpdatePass']);
     Route::get('/check-user-image', [DashboardController::class, 'checkUserImage']);
+    Route::post('uploadMotto', [DashboardController::class, 'uploadMotto']);
 
 });
