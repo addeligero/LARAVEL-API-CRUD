@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class,'logout']);
     Route::post('/upload', [DashboardController::class,'AddImage']);
     Route::put('/passwords', [AuthController::class,'UpdatePass']);
-    Route::get('/check-user-image', [DashboardController::class, 'checkUserImage']);
+    Route::get('/check-user-uploaded', [DashboardController::class, 'checkUserUploaded']);
     Route::post('uploadMotto', [DashboardController::class, 'uploadMotto']);
 
 });

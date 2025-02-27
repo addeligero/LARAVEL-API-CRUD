@@ -49,14 +49,31 @@ class DashboardController extends Controller
         }
     }
 
-    public function checkUserImage(Request $request)
+    public function checkUserUploaded(Request $request)
     {
         $user = $request->user();
         $dashboard = Dashboard::where('user_id', $user->id)->first();
 
-        if ($dashboard && $dashboard->image) {
-            return response()->json(['has_image' => true, 'image' => $dashboard->image], 200);
+        if ($dashboard) {
+            $response = [];
+            if ($dashboard->image) {
+                $response['has_image'] = true;
+                $response['image'] = $dashboard->image;
+            } else {
+                $response['has_image'] = false;
+            }
+
+            if ($dashboard->motto) {
+                $response['has_motto'] = true;
+                $response['motto'] = $dashboard->motto;
+            } else {
+                $response['has_motto'] = false;
+            }
+
+            return response()->json($response, 200);
         }
+
+        return response()->json(['has_image' => false, 'has_motto' => false], 200);
 
         return response()->json(['has_image' => false], 200);
     }
